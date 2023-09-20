@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <title>PWD Repo</title>
+
+    <script>
+    </script>
+
+</head>
+<body>
+  <h1>Password Manager</i></h1>
+  <section class="master">
+    <label>Master Password: <input type="password" id="password" class="passfield" value="" placeholder="Type Password"></label>
+    <br><br>
+    <!-- <label id="fileReq">Password File: <input type="file" id="txtFile" accept=".txt"></label> -->
+    <label id="fileReq">Password File: <input type="file" id="fileInput" accept=".txt"/></label>
+    <button onclick="readFile()">Read File</button>
+    <br><br>
+  </section>
+
+
+	<script>
+    var arr = [];
+    function readFile() {
+      var fileInput = document.getElementById('fileInput');
+      var file = fileInput.files[0];
+
+      var reader = new FileReader();
+
+      reader.onload = function(e) {
+        var contents = e.target.result;
+        var rows = contents.split('\r\n');
+        arr = rows.filter(function(row) {
+          return row.trim() !== ''; // Remove empty lines if desired
+        });
+
+      // Sort the array
+      var header = [arr.at(0)];
+      var content = arr.slice(1).sort((a, b) => (a > b) ? 1 : -1);
+      var arrResults = header.concat(content);
+
+        // Do something with the array
+        //console.log(arr);
+        console.log(arrResults);
+              
+        for (var i = 0; i < arrResults.length; i++) {          
+          var cells = arrResults[i].split(',');
+          for (var j = 0; cells.length; j++) {
+            document.write("<tr>");
+            if (i = 0) {
+              document.write("<th class=\"col"+j+"\">"+cells[j]+"</th>");
+            }
+            else {
+              document.write("<td class=\"col"+j+"\">"+cells[j]+"</td>");
+            }
+            document.write("</tr>");
+
+
+            // document.write("<tr>");
+            // document.write("<td>"+pwds[i].displayname+"</td>");
+            // document.write("<td><button class=\"tblbtn\" type=\"button\" onclick=\"decryptboth('user"+pwds[i].id+"','"+pwds[i].username+"','"+pwds[i].id+"','"+pwds[i].ciphertext+"');\"><img src=\".\\bin\\icons8-eye-24.png\"/></button></td>");
+            // document.write("<td id=\"user"+pwds[i].id+"\"></td>");
+            // document.write("<td><button class=\"tblbtn\" type=\"button\" onclick=\"copytr('user"+pwds[i].id+"');\"><img src=\".\\bin\\icons8-copy-30.png\"/></button></td>");
+            // document.write("<td id=\""+pwds[i].id+"\"></td>");
+            // document.write("<td><button class=\"tblbtn\" type=\"button\" onclick=\"copytr('"+pwds[i].id+"');\"><img src=\".\\bin\\icons8-copy-30.png\"/></button></td>");
+            // document.write("</tr>");
+          }
+            }   
+
+      };
+
+      reader.readAsText(file);
+    }
+        
+ 
+
+	</script>  
+
+<table id="pwdtable">
+    <thead>
+      <tr>
+        <th class="col1">Application</th>
+        <th class="col2">Username</th>
+        <th class="col3">Look</th>
+        <th class="col2">Password</th>
+        <th class="col3">Description/Comments</th>
+      </tr>
+    </thead>
+    <!-- <tbody>
+      <script>      
+      for (var i = 0; i < pwds.length; i++) {
+          document.write("<tr>");
+          document.write("<td>"+pwds[i].displayname+"</td>");
+          document.write("<td><button class=\"tblbtn\" type=\"button\" onclick=\"decryptboth('user"+pwds[i].id+"','"+pwds[i].username+"','"+pwds[i].id+"','"+pwds[i].ciphertext+"');\"><img src=\".\\bin\\icons8-eye-24.png\"/></button></td>");
+          document.write("<td id=\"user"+pwds[i].id+"\"></td>");
+          document.write("<td><button class=\"tblbtn\" type=\"button\" onclick=\"copytr('user"+pwds[i].id+"');\"><img src=\".\\bin\\icons8-copy-30.png\"/></button></td>");
+          document.write("<td id=\""+pwds[i].id+"\"></td>");
+          document.write("<td><button class=\"tblbtn\" type=\"button\" onclick=\"copytr('"+pwds[i].id+"');\"><img src=\".\\bin\\icons8-copy-30.png\"/></button></td>");
+          document.write("</tr>");
+          }      
+      </script>
+    </tbody> -->
+  </table>
+
+</body>
+</html>

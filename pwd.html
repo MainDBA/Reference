@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="app.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@300;400;700&display=swap" rel="stylesheet">
+  <title>Accounts</title>
+</head>
+<body>  
+  <header class="navbar" id="topsection">
+    <h1>Main DBA Ltd | Account Reference</h1>
+    <nav class="links">
+        <ul>
+            <li id="admin"><a href=#adminsection>Administration</a></li>
+            <!-- <li><img src=".\bin\MDBA.1.2.png" alt="" style="height: 10%; width: 10%;"></li> -->
+        </ul>
+    </nav>
+    <img src=".\bin\MDBA.1.2.png" alt="">
+  </header>
+  <div class="userInput">
+    <section class="master card">
+      <label>Master Password: </label>
+      <input type="password" id="password" class="passfield" value="" placeholder="Enter Password">
+      <button class="crdbtn" onclick="getPWD()">Submit</button>
+      <p></p>
+    </section>
+      
+    <section class="file card" id="file">
+      <label>Password File: </label>
+      <input type="file" id="pwdFile" accept=".pwd">
+      <button class="crdbtn" onclick="getPWDFile()">Read File</button>
+    </section>
+
+  </div>
+
+  <div id="tableContainer"></div>
+  <br><br><br><br><br><br>
+
+<div id="admincrd">
+  <h2 id="adminsection">Administration</h2>
+  <a href=#topsection>Back to the top...</a><br>
+    <section class="singleEntry adminCard">
+      <label>Text to be masked: </label>
+      <input type="text" id = "mskTxt">
+      <button class="crdbtn" onclick="oneCipher(document.getElementById('mskTxt').value)">Generate</button>
+      <br>
+      <label>Output: </label>
+      <textarea name="" id="oneCipher" cols="100" rows="2" class="outfield"></textarea>
+    </section>
+
+
+    <section class="newEntry adminCard">
+      <label>Application: </label>
+      <input type="text" id = "appTxt">
+      <label>Username: </label>
+      <input type="text" id = "usrTxt">
+      <label>Password: </label>
+      <input type="text" id = "pwdTxt">
+      <label>Description: </label>
+      <input type="text" id = "dscTxt">
+      <button class="crdbtn" onclick="fileCipher(document.getElementById('appTxt').value,document.getElementById('usrTxt').value,document.getElementById('pwdTxt').value,document.getElementById('dscTxt').value)" >Generate</button>
+      <br>
+      <label>Output: </label> 
+      <textarea name="" id="fileCipher" cols="100" rows="5" class="outfield"></textarea>     
+    </section>
+  </div>
+
+  <script>
+
+    function getPWD () {
+      var password = document.getElementById("password").value;
+      if (password == "") {
+        document.getElementById("file").style.visibility = 'hidden';
+        document.getElementById("tableContainer").hidden = true;
+        document.getElementsById ("admincrd").style.visibility = 'hidden';
+        alert('Please enter your passsword.');
+      }
+      else {
+        document.getElementById("file").style.visibility = 'visible';
+        document.getElementById("tableContainer").hidden = false;
+        document.getElementsById ("admincrd").style.visibility = 'visible';
+      }
+    }
+
+    function getPWDFile () {
+      var pwdFileInput = document.getElementById('pwdFile');
+      var file = pwdFileInput.files[0];
+        if (file && file.name.endsWith('.pwd')) {
+          processPWDFile(file);
+        } else {
+          alert('Please select a valid *.pwd file.');
+        }
+      }
+
+    function decrypt(id,ciphertext) {
+      var password = document.getElementById("password").value;
+      var bytes  = CryptoJS.AES.decrypt(ciphertext, password);
+      var plaintext = bytes.toString(CryptoJS.enc.Utf8);
+      if (id.match(/pwd.*/)) {
+        document.getElementById(id).hidden = false;
+        document.getElementById(id).textContent = plaintext;
+      }
+      return plaintext;
+    }
+
+    function encrypt(id,plaintext) {
+      var password = document.getElementById("password").value;
+      var ciphertext = CryptoJS.AES.encrypt(plaintext, password).toString();
+      //document.getElementById("ciphertext").value = ciphertext;
+      return ciphertext;
+    }
+    
+    function copyTableRow(id) {
+      if (id.match(/pwd.*/) && (document.getElementById(id).hidden != false)) {
+        window.alert("Nothing to copy!");
+        return;
+      }
+      else {
+        var copyText = document.getElementById(id).textContent;
+        navigator.clipboard.writeText(copyText)
+        window.alert("Copied the text: " + copyText);
+      }
+    }
+
+    function revealFileRow(id) {
+      document.getElementById(id).hidden = false;
+    }
+
+    function sortTable(table) {
+        var table, rows, switching, i, x, y, shouldSwitch;
+        // table = document.getElementsByClassName("table");
+        switching = true;
+        /*Make a loop that will continue until
+        no switching has been done:*/
+        while (switching) {
+            //start by saying: no switching is done:
+            switching = false;
+            rows = table.rows;
+            /*Loop through all table rows (except the
+            first, which contains table headers):*/
+            for (i = 1; i < (rows.length - 1); i++) {
+                //start by saying there should be no switching:
+                shouldSwitch = false;
+                /*Get the two elements you want to compare,
+                one from current row and one from the next:*/
+                x = rows[i].getElementsByTagName("td")[0];
+                y = rows[i + 1].getElementsByTagName("td")[0];
+
+                var cmpX = isNaN(parseInt(x.innerHTML)) ? x.innerHTML.toLowerCase() : parseInt(x.innerHTML);
+                var cmpY = isNaN(parseInt(y.innerHTML)) ? y.innerHTML.toLowerCase() : parseInt(y.innerHTML);
+                cmpX = (cmpX == '-') ? 0 : cmpX;
+                cmpY = (cmpY == '-') ? 0 : cmpY;
+                //check if the two rows should switch place:
+                if (cmpX > cmpY) {
+                    //if so, mark as a switch and break the loop:
+                    shouldSwitch = true;
+                    break;
+                }
+            }
+            if (shouldSwitch) {
+                /*If a switch has been marked, make the switch
+                and mark that a switch has been done:*/
+                rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                switching = true;
+            }
+        }
+    }
+
+    function processPWDFile(file) {
+      var password = document.getElementById("password").value;
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        var contents = e.target.result;
+        var results = contents.split('\r\n');
+        var top =  results.at(0).toString();
+        var check = decrypt("cellid",top);
+        if (check != password) {
+          alert('You have entered the wrong password for this file.');
+          document.getElementById("file").style.visibility = 'hidden';
+          document.getElementById("tableContainer").hidden = true;
+          document.getElementById("admincrd").style.visibility = 'hidden';
+          document.getElementById("pwdFile").value = "";
+          return;
+        }
+        document.getElementById("admin").style.visibility = 'visible';
+        document.getElementById("admincrd").style.visibility = 'visible';
+        sessionStorage.setItem("stgPWD",password);
+        var lines = results.slice(1);
+
+        var table = document.createElement('table');
+        table.className = "table"
+        var tableContainer = document.getElementById('tableContainer');
+        tableContainer.innerHTML = '';
+        tableContainer.appendChild(table);
+
+        for (var i = 0; i < lines.length; i++) {
+          var row = document.createElement('tr');
+          var cells = lines[i].split("||");
+
+          for (var j = 0; j < cells.length; j++) {
+            var cell = i == 0 ? document.createElement('th') : document.createElement('td'); 
+            if(i == 0) {
+              cell.className = 'hdr'+j;
+              // cell.textContent = decrypt(cell.id,cells[j]);
+            }
+            cell.className = cell.className +" col"+j;
+            if(j == 0 && i > 0) {
+                cell.textContent = decrypt(cell.id,cells[j]);
+                }
+            else if(j == 1 && i > 0) {
+                cell.id = 'usr'+i;   
+                cell.textContent = decrypt(cell.id,cells[j]);           
+                }
+            else if(j == 2 && i > 0) {
+                cell.id = 'pt1copy'+i;   
+                cell.innerHTML = "<button class=\"tblbtn tooltip\" type=\"button\" onclick=\"copyTableRow('usr"+(i)+"');\"><img src=\".\\bin\\content_copy.png\"/></button>";           
+                }
+            else if(j == 3 && i > 0) {
+                cell.id = 'look'+i;     
+                cell.innerHTML = "<button class=\"tblbtn tooltip\" type=\"button\" onclick=\"decrypt('pwd"+(i)+"','"+cells[(j+1)]+"');\"><img src=\".\\bin\\visibility.png\"/></button>";                     
+                }
+            else if(j == 4 && i > 0) {
+                cell.id = 'pwd'+i;
+                cell.textContent = cells[j];
+                cell.hidden = "until-found"
+                }
+            else if(j == 5 && i > 0) {
+                cell.id = 'pt2copy'+i;   
+                cell.innerHTML = "<button class=\"tblbtn tooltip\" type=\"button\" onclick=\"copyTableRow('pwd"+i+"');\"><img src=\".\\bin\\content_copy.png\"/></button>";   
+                }
+            else if(j == 6 && i > 0) {
+                cell.textContent = decrypt(cell.id,cells[j]);
+                }
+            else if(j == 7 && i > 0) {
+                // cell.id = 'find'+i;   
+                cell.innerHTML = "<button class=\"tblbtn tooltip\" type=\"button\" onclick=\"revealFileRow('find"+i+"');\"><img src=\".\\bin\\search.png\"/></button>";
+                }
+            else if(j == 8 && i > 0) {
+                cell.id = 'find'+i;   
+                cell.innerHTML = "Row:"+(i+2);
+                cell.hidden = "until-found"
+                // cell.style.visibility = 'hidden'
+                }
+            else {
+                cell.textContent = decrypt(cell.id,cells[j]);
+            }
+            row.appendChild(cell);
+          }
+          table.appendChild(row);
+        }
+        sortTable(table);
+      };
+      reader.readAsText(file);
+    }
+
+    function oneCipher(mskTxt) {
+        var password = sessionStorage.getItem("stgPWD");
+        var msk = CryptoJS.AES.encrypt(mskTxt, password).toString();
+        document.getElementById('oneCipher').innerHTML = msk;
+    }
+
+    function fileCipher(appTxt,usrTxt,pwdTxt,dscTxt) {
+        var password = sessionStorage.getItem("stgPWD");
+        var app = CryptoJS.AES.encrypt(appTxt, password).toString();
+        var user = CryptoJS.AES.encrypt(usrTxt, password).toString();
+        var pwd = CryptoJS.AES.encrypt(pwdTxt, password).toString();
+        var desc = CryptoJS.AES.encrypt(dscTxt, password).toString();
+        // var useroutput = user.toString(CryptoJS.enc.Utf8);
+        var output = app + "||" + user +"||||||" + pwd + "||||" + desc + "||||";
+        document.getElementById('fileCipher').innerHTML = output;
+    }
+
+    
+
+    // Start of the Page Load...
+    document.getElementById("file").style.visibility = 'hidden';
+    document.getElementById("tableContainer").hidden = true;
+    document.getElementById ("admin").style.visibility = 'hidden';
+    document.getElementById ("admincrd").style.visibility = 'hidden';
+
+  </script>
+</body>
+</html>

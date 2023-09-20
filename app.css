@@ -1,0 +1,215 @@
+body {
+  font-family: 'Source Code Pro', sans-serif;
+}
+.navbar {
+  margin: 10px;
+}
+h1 {
+  display: inline-block;
+}
+.links {
+  display: inline-block;
+  text-align: right;
+}
+.links li {
+  display: inline-block;
+}
+.admin {
+    visibility: hidden;
+}
+/* #admin {
+    visibility: hidden;
+} */
+.file {
+    visibility: hidden;
+}
+.links a {
+  text-decoration: none;
+}
+.navbar img {
+  height: 8%; 
+  width: 8%;
+  float: right;
+}
+.userInput {
+  display: flex;
+  flex-direction: row;
+}
+.card {
+  background-color: beige;
+  height: 80px;
+  width: 350px;
+  padding: 15px 20px;
+  border-radius: 20px;
+  display: inline-block;
+  margin: 0px 15px;
+}
+.card label {
+  display: block;
+}
+.crdbtn {
+  background-color: #463d36;
+  color: #f5f5dc;
+  padding: 0px 5px;
+  margin: 5px;
+  width: 100px;
+  font-family: 'Source Code Pro', sans-serif;
+}
+input[type="file"]::file-selector-button {
+  background-color: #463d36;
+  color: #f5f5dc;
+  padding: 0px 5px;
+  margin: 5px;
+  width: 100px;
+  font-family: 'Source Code Pro', sans-serif;
+}
+input[type="file" i] {  
+  font-family: 'Source Code Pro', sans-serif;
+}
+input[type="text" i] {  
+  font-family: 'Source Code Pro', sans-serif;
+}
+textarea {  
+  font-family: 'Source Code Pro', sans-serif;
+}
+.passfield {
+  font-family: 'Source Code Pro', sans-serif;
+}
+#tableContainer {
+  margin: 15px;
+}
+.table {  
+  border: 1px white;
+  max-width: 80%;
+  height: 600px;
+  margin: 15;
+  display: block;
+  overflow-x: auto;
+  border-spacing: 0;
+  /* font-size: 1rem; */
+}
+.table th {
+  border: 1px solid white;
+  background-color:  #463d36;
+  color: beige;
+  text-align: center;
+}
+.table tr {
+  border: 1px solid white;
+}
+.table td {
+  /* border: 1px solid white; */
+  background-color: beige;
+}
+
+.table .col1.hdr1{
+  border: 1px solid white;
+  border-right: 0;
+  background-color: #463d36;
+  color: beige;
+}
+.table .col2.hdr2{
+  border: 1px solid white;
+  border-left: 0;
+  background-color: #463d36;
+  color: beige;
+}
+.table .col3.hdr3{
+  border: 1px solid white;
+  border-right: 0;
+  background-color: #463d36;
+  color: beige;
+}
+.table .col4.hdr4{
+  border: 1px solid white;
+  border-right: 0;
+  border-left: 0;
+  background-color: #463d36;
+  color: beige;
+}
+.table .col7.hdr7{
+  border: 1px solid white;
+  border-right: 0;
+  background-color: #463d36;
+  color: beige;
+}
+.table .col8.hdr8{
+  border: 1px solid white;
+  border-right: 0;
+  border-left: 0;
+  background-color: #463d36;
+  color: beige;
+  text-align: left;
+}
+.table .col5.hdr5{
+  border: 1px solid white;
+  border-left: 0;
+  background-color: #463d36;
+  color: beige;
+}
+.table .col1{
+  border: 1px solid white;
+  border-right: 0;
+  background-color: beige;
+}
+.table .col2{
+  border: 1px solid white;
+  border-left: 0;
+  background-color: beige;
+}
+.table .col3{
+  border: 1px solid white;
+  border-right: 0;
+  background-color: beige;
+}
+.table .col4{
+  border: 1px solid white;
+  border-right: 0;
+  border-left: 0;
+  background-color: beige;
+}
+.table .col5{
+  border: 1px solid white;
+  border-left: 0;
+  background-color: beige;
+}
+.table .col7{
+  border: 1px solid white;
+  border-right: 0;
+  border-left: 0;
+  background-color: beige;
+}
+.table .col8{
+  border: 1px solid white;
+  border-left: 0;
+  background-color: beige;
+}
+
+.table td {
+  border: 1px solid white;
+  background-color: beige;
+  font-size: small;
+}
+.tblbtn {
+  border: none;
+  background-color: beige;
+}
+.tblbtn img {
+  width: 20px;
+}
+
+.adminCard {
+  background-color: beige;
+  height: auto;
+  width: auto;
+  padding: 15px 20px;
+  border-radius: 20px;
+  display: inline-block;
+  margin: 15px;
+}
+.adminCard label {
+  display: block;
+}
+.adminCard input[type="text" i] {
+  width: 500px;
+}
