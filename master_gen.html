@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="app.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@300;400;700&display=swap" rel="stylesheet">
+  <title>Generator</title>
+</head>
+<body>  
+  <header class="navbar" id="topsection">
+    <h1>Main DBA Ltd | Master Password Generator</h1>
+    <img src=".\bin\MDBA.1.2.png" alt="">
+  </header>
+
+  <div>
+      <section class="singleEntry adminCard">
+        <label>Generate a Master Password: </label>
+        <input type="text" id = "mskTxt">
+        <button class="crdbtn" onclick="masterCipher(document.getElementById('mskTxt').value)">Generate</button>
+        <br>
+        <label>Output: </label>
+        <textarea name="" id="masterCipher" cols="100" rows="5" class="outfield"></textarea>
+      </section>
+    </div>
+
+    <script>							
+        
+    function masterCipher(mskTxt) {
+        var msk = CryptoJS.AES.encrypt(mskTxt, mskTxt).toString();
+        var app = CryptoJS.AES.encrypt("Application", mskTxt).toString();
+        var user = CryptoJS.AES.encrypt("Username", mskTxt).toString();
+        var pwd = CryptoJS.AES.encrypt("Password", mskTxt).toString();
+        var desc = CryptoJS.AES.encrypt("Description/Comments", mskTxt).toString();
+        var row = CryptoJS.AES.encrypt("File Row", mskTxt).toString();
+        var output = msk + "\r\n" + app + "||" + user +"||||||" + pwd + "||||" + desc + "||" + row;
+        document.getElementById('masterCipher').innerHTML = output;
+    }
+
+    </script>
+
+</body>
+</html>
