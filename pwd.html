@@ -48,6 +48,7 @@
       <label>Text to be masked: </label>
       <input type="text" id = "mskTxt">
       <button class="crdbtn" onclick="oneCipher(document.getElementById('mskTxt').value)">Generate</button>
+      <button class="crdbtn" onclick="copyOutput('oneCipher')">Copy Output</button>
       <br>
       <label>Output: </label>
       <textarea name="" id="oneCipher" cols="100" rows="2" class="outfield"></textarea>
@@ -64,6 +65,7 @@
       <label>Description: </label>
       <input type="text" id = "dscTxt">
       <button class="crdbtn" onclick="fileCipher(document.getElementById('appTxt').value,document.getElementById('usrTxt').value,document.getElementById('pwdTxt').value,document.getElementById('dscTxt').value)" >Generate</button>
+      <button class="crdbtn" onclick="copyOutput('fileCipher')">Copy Output</button>
       <br>
       <label>Output: </label> 
       <textarea name="" id="fileCipher" cols="100" rows="5" class="outfield"></textarea>     
@@ -125,6 +127,18 @@
         navigator.clipboard.writeText(copyText)
         window.alert("Copied the text: " + copyText);
       }
+    }
+
+    function copyOutput(id) {
+        var copyText = document.getElementById(id).textContent;
+        if (copyText  <= 0){
+                alert('The output field is empty!');
+                return;
+        }
+        else {
+        navigator.clipboard.writeText(copyText)
+        window.alert("Copied the text: " + copyText);
+        }
     }
 
     function revealFileRow(id) {
