@@ -19,7 +19,7 @@
 
   <div>
       <section class="singleEntry adminCard">
-        <label>Generate a Master Password: </label>
+        <label>Generate a new Master Password: </label>
         <input type="text" id = "mskTxt">
         <button class="crdbtn" onclick="masterCipher(document.getElementById('mskTxt').value)">Generate</button>
         <button class="crdbtn" onclick="copyOutput('masterCipher')">Copy Output</button>
@@ -51,7 +51,7 @@
     function copyOutput(id) {
         var copyText = document.getElementById(id).textContent;
         if (copyText  <= 0){
-                alert('The output Field is empty!');
+                alert('The output field is empty!');
                 return;
         }
         else {
