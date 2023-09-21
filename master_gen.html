@@ -22,6 +22,7 @@
         <label>Generate a Master Password: </label>
         <input type="text" id = "mskTxt">
         <button class="crdbtn" onclick="masterCipher(document.getElementById('mskTxt').value)">Generate</button>
+        <button class="crdbtn" onclick="copyOutput('masterCipher')">Copy Output</button>
         <br>
         <label>Output: </label>
         <textarea name="" id="masterCipher" cols="100" rows="5" class="outfield"></textarea>
@@ -31,6 +32,11 @@
     <script>							
         
     function masterCipher(mskTxt) {
+        if (mskTxt.length <= 0){
+                alert('Please enter a Password.');
+                return;
+        }
+        else {
         var msk = CryptoJS.AES.encrypt(mskTxt, mskTxt).toString();
         var app = CryptoJS.AES.encrypt("Application", mskTxt).toString();
         var user = CryptoJS.AES.encrypt("Username", mskTxt).toString();
@@ -39,6 +45,19 @@
         var row = CryptoJS.AES.encrypt("File Row", mskTxt).toString();
         var output = msk + "\r\n" + app + "||" + user +"||||||" + pwd + "||||" + desc + "||" + row;
         document.getElementById('masterCipher').innerHTML = output;
+        }
+    }
+
+    function copyOutput(id) {
+        var copyText = document.getElementById(id).textContent;
+        if (copyText  <= 0){
+                alert('The output Field is empty!');
+                return;
+        }
+        else {
+        navigator.clipboard.writeText(copyText)
+        window.alert("Copied the text: " + copyText);
+        }
     }
 
     </script>
